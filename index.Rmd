@@ -1,5 +1,5 @@
 --- 
-title: "YOUR TITLE HERE"
+title: "Understanding the Spread and Waves of COVID-19 Pandemic"
 author: "Bohong Zhao, James Franco"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
@@ -7,3 +7,4 @@ site: bookdown::bookdown_site
 
 # Introduction
 
+  Starting in 2019, COVID-19 pandemic began to spread rapidly across the world. In US, New York State became one of the hotspots that had high daily new infection cases (increasing in an alarming rate) due to New York's dense population and the shortage of supplies. The pandemic was unexpected, and many combat tactics were developed and implemented on the spot.A full understanding of its spreading behavior is crucial to develop measures to better prepare for future pandemics. However, the spread of pandemic is a complex, stochastic, and unpredictable process that involves numerous factors. Understanding this pandemic on a global scale can be challenging. Therefore, this research focuses solely on the New York State. We aim to understand the best COVID-19 spread measurement metrics, how it spread in terms of geo-location, identify the number of waves from the start of COVID-19 to the end of 2022, and how number of waves varies based on county.
