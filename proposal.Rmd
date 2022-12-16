@@ -1,6 +1,7 @@
 # Proposal
 
 ## Research topic
+  We aim to understand the best COVID-19 spread measurement metrics, how it spread in terms of geo-location, identify the number of waves from the start of COVID-19 to the end of 2022, and how number of waves varies based on county.
 
 ## Data availability
 
