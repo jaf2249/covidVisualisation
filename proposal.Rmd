@@ -1,7 +1,9 @@
 # Proposal
 
 ## Research topic
-  We aim to understand the best COVID-19 spread measurement metrics, how it spread in terms of geo-location, identify the number of waves from the start of COVID-19 to the end of 2022, and how number of waves varies based on county.
-
+  Our research aims to understand COVID-19's behavior in the New York State. Specifically, we want to first identify the best measurement metrics that reflects COVID-19 spread, through comparative analysis. Possile candidates include "daily new positives", "cumulative number of positives", "test % positive", etc. Next, we want to visualize how COVID-19 spread in terms of geo-location through spatial graphs. Finally, we want to use time series graphs to identify the number of waves from the start of COVID-19 to the end of 2022, and how number of waves varies based on county. 
+  
+  
 ## Data availability
+
 
