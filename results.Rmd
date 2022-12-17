@@ -1,1 +1,99 @@
 # Results
+
+```{r setup, include=FALSE}
+# this prevents package loading message from appearing in the rendered version of your problem set
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+```
+
+First, we want to determine the best measurement metrics for pandemic spread. From the dataset, we have three metrics to choose from: "New Positives", "Cumulative Number of Positives", "Test % Positive". During the pandemic, people and media often use number of new cases each day to reflect the severity of the pandemic, but we suspect daily new cases is not an accurate metrics, due to its potential correlation to the number of tests performed each day. With more tests performed, more new cases would be discovered and documented. At the start of the pandemic, the shortage of supplies and immature pandemic combat tactics were very likely to result in a low number of testing performed. Therefore, we hypothesize "Test % Positive" is a better metrics that reflect the pandemic spread, in contrary to what most people perceive. Moreoever, "New Positives" and "Total Number of Tests Performed" have a positive correlation.
+
+See below for the cleaned dataset. There are no missing values, and we converted the "Test Date" column to date type, "Test % Positive" to double. 
+```{r cleaning}
+#install.packages("arrow")
+library("arrow")
+library("dplyr")
+library("ggplot2")
+library("tidyverse")
+
+df <- read_csv("NYC_testing_data.csv")
+df$"Test Date"<-as.Date(parsedate::parse_date(df$"Test Date"))
+df$`Test % Positive`<-sapply(df$`Test % Positive`, function(x) as.numeric(substr(x, 1, nchar(x)-1))/100  )
+df
+```
+
+
+The below scatter graph gives an overview the correlation between Number of Tests Performed and New Positives on a county level.From the graph, we can distinctly see that there is much more data for New York City and Statewide. This results in dots concentrating together for scatterplots for other counties.
+```{r}
+ggplot(df, aes(df$"New Positives", df$"Total Number of Tests Performed")) +  
+  geom_point()+
+  facet_wrap(~County)+  
+  ggtitle("Correlation between Number of Tests Performed and New Positives by County") +
+  xlab("New Positives")+
+  ylab("Number of Tests Performed")
+```
+
+
+Therefore, we decide to look at New York City and Statewide individually first, to see if there exsits a correlation between New Positives and Total number of tests.The graphs shows a strong positive relationship between the two. This provides evidence to our hypothesis that daily new cases is influenced by number of tests, therefore it is a biased metrics to measure the pandemic spread.
+```{r}
+df_filtered<-df%>% filter(df$County == "New York City")
+ggplot(df_filtered, aes(df_filtered$"New Positives", df_filtered$"Total Number of Tests Performed")) +  
+  geom_point()+
+  ggtitle("Correlation between Number of Tests Performed and New Positives in NYC") +
+  xlab("New Positives")+
+  ylab("Number of Tests Performed")
+df_filtered<-df%>% filter(df$County == "STATEWIDE")
+ggplot(df_filtered, aes(df_filtered$"New Positives", df_filtered$"Total Number of Tests Performed")) +  
+  geom_point()+
+  ggtitle("Correlation between Tests Performed and New Positives in the NY State") +
+  xlab("New Positives")+
+  ylab("Number of Tests Performed")
+```
+
+To see if the above finding is true for other counties, we use a parallel coordinate plot. After we filtered out NYC and statewide, we noticed a few extreme outliers that negatively impacts the visibility of the majority of data. We decided to remove those outliers using the IQR method. We further sampled 100 rows of data for clearer visualization. In the resulting parallel corrdinate plot, we noticed the majority of lines are parallel to each other, shooting upwards. This adds more evidence that daily new cases is influenced by number of tests in other counties as well.
+
+```{r}
+library(GGally)
+df_filtered<-df%>% filter(df$County != "New York City" & df$County != "STATEWIDE")
+Q1 <- quantile(df_filtered$"New Positives", .25)
+Q3 <- quantile(df_filtered$"New Positives", .75)
+IQR <- IQR(df_filtered$"New Positives")
+df_filtered <- subset(df_filtered, df_filtered$"New Positives" > (Q1 - 1.5*IQR) & df_filtered$"New Positives" < (Q3 + 1.5*IQR))
+Q1 <- quantile(df_filtered$"Total Number of Tests Performed", .25)
+Q3 <- quantile(df_filtered$"Total Number of Tests Performed", .75)
+IQR <- IQR(df_filtered$"New Positives")
+df_filtered <- subset(df_filtered, df_filtered$"New Positives" > (Q1 - 1.5*IQR) & df_filtered$"New Positives" < (Q3 + 1.5*IQR))
+
+df_filtered_sample<-sample_n(df_filtered, 100)
+ggparcoord(df_filtered_sample, columns=c(3,5), 
+          title = "Parallel coordinate plot for COVID cases in counties excluding NYC")
+```
+
+In following two time series graph shows how New Positives and Number of Tests Performed changes overtime, with loess smoothing curves. We can clearly see that since the beginning of COVID-19, the number of tests performed gradually increases overtime and peaks at 2022. One explanation for this is there was a severe shortage of supplies and medical staffs at first. Interestingly, New Positives follows a similar trend: slowly increasing at first, and peaks at 2022. This again demonstrates the what New Cases are measuring may not truly be the daily new cases, but the cases identified through testing. 
+
+```{r}
+ggplot(df %>% filter(df$County=="New York City"), 
+       aes(`Test Date`, `New Positives`)) + 
+  geom_line() + 
+  geom_smooth(method = "loess", span = .5, se = FALSE)+
+  theme_grey(14)
+```
+
+```{r}
+ggplot(df %>% filter(df$County=="New York City"), 
+       aes(`Test Date`, `Total Number of Tests Performed`)) + 
+  geom_line() +
+  geom_smooth(method = "loess", span = .5, se = FALSE)+
+  theme_grey(14)
+```
+
+
+In conclusion, we decide to use "Test % Positive" as the pandemic spread measurement metrics for the remaining of this research. This metrics eliminates the bias introduced by the number of tests and can more accurately reflect the pandemic spread. How "Test % Positive" changes overtime is drastically different from how number of new cases changes overtime.
+```{r}
+ggplot(df %>% filter(df$County=="New York City"), 
+       aes(`Test Date`, `Test % Positive`)) + 
+  geom_line() +
+  geom_smooth(method = "loess", span = .5, se = FALSE)+
+  theme_grey(14)
+df
+```
+
