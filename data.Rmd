@@ -1,8 +1,21 @@
 # Data 
 
 ## Sources
+In this project, we used two data sources. We firstly used COVID testing information provided by the New York state government health department, located at: https://health.data.ny.gov/Health/New-York-State-Statewide-COVID-19-Testing/xdss-u53e . It contains COVID testing information since March 2020 across all 62 counties in New York state, and contains up until December 13th 2022 at the time of download. It's easily downloadble as a .csv, and is very clean. We chose this dataset over others because of its good upkeep, and New York's role as both a staple of COVID health regulations over the pandemic, and also as it is close to home (as Columbia students). 
+
+The second dataset we used was from the Urban Institute, and was not so much a dataset as it was a pre-defined co-ordinate system. Itcontains latitude and longitude information of all counties in all states across the US. It exists almost entirely to be used for map-plotting, which is a large purpose of Urban Institute.  It can be found at https://github.com/UrbanInstitute/urbnmapr with more info at https://urban-institute.medium.com/how-to-create-state-and-county-maps-easily-in-r-577d29300bb2 .
 
 ## Cleaning / transformation
+The columns in the NY Health dataset are: "Test Date", "County", "New Positives", "Cumulative Number of Positives", "Total Number of Tests Performed", Cumulative Number of Tests Performed", "Test % Positive", and "Geography". The cleaning and pre-processing steps were pretty minimal due to the data being updated regularly and maintained well. They were as follows:
+* Replace whitespaces with underscores in column names (e.g. "Test Date" -> "Test_Date")
+* Replace the "%" sign with "pct" in the column name: "Test % Positive" -> "Test_pct_Positive"
+* Change "Test_Date" column type from string into date
+* Change "Test % Positive" column type from string into double (making sure to remove the trailing "%" sign)
+
+As the Urban Institute dataset exists almost entirely to be used for map-plotting (which is a large purpose of Urban Institute), there was hardly any cleaning required. However, there was one small point we had to address. In order to combine this map data for plotting with our COVID testing data, we had to perform a join on the name of the county. However, in the Urban Institute dataset, counties are named with a trailing " County" on the end. For example, "Albany" is listed as a county in the NY gov dataset, but its corresponding entry in the Urban Institute dataset is "Albany County". Thus, for compatibility we had to clean the Urban Institute dataset by removing all instances of " County" and replacing it with an empty string.
+
 
 ## Missing value analysis
+Neither dataset was missing any entries. This can be seen in the animations in the Results section, which show the entirety of the NY Health dataset plotted over all given dates, in all given counties. There are no empty frames (which would correspond to empty rows in the NY health dataset), and there are no missing counties or faulty co-ordinate locations (which would correspond to empty or incorrect rows in the Urban Institute dataset).
+
 

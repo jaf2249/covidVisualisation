@@ -5,5 +5,7 @@
   
   
 ## Data availability
+For this project, we will draw from two data sources. The first, located at https://health.data.ny.gov/Health/New-York-State-Statewide-COVID-19-Testing/xdss-u53e is data collected by the New York state government health department. It contains COVID testing information since March 2020 across all 62 counties in New York state, and contains up until December 13th 2022 at the time of download. It's easily downloadble as a .csv, and is already pretty clean. More information is presented in chapter 3.
 
-
+The second dataset we will use is latitude and longitude of all counties in the USA (of which we'll only use the NY-based ones). It is held at https://github.com/UrbanInstitute/urbnmapr and more info can be found at https://urban-institute.medium.com/how-to-create-state-and-county-maps-easily-in-r-577d29300bb2 .
+It is created by a Washington D.C.-based think tank called Urban Institute, and is used pretty frequently. Therefore, it's already quite clean. More information is presented in chapter 3.
