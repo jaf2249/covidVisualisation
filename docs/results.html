@@ -4,26 +4,26 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 4 Results | YOUR TITLE HERE</title>
-  <meta name="description" content="Chapter 4 Results | YOUR TITLE HERE" />
+  <title>Chapter 4 Results | Understanding the Spread and Waves of COVID-19 Pandemic</title>
+  <meta name="description" content="Chapter 4 Results | Understanding the Spread and Waves of COVID-19 Pandemic" />
   <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 4 Results | YOUR TITLE HERE" />
+  <meta property="og:title" content="Chapter 4 Results | Understanding the Spread and Waves of COVID-19 Pandemic" />
   <meta property="og:type" content="book" />
   
   
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 4 Results | YOUR TITLE HERE" />
+  <meta name="twitter:title" content="Chapter 4 Results | Understanding the Spread and Waves of COVID-19 Pandemic" />
   
   
   
 
-<meta name="author" content="YOUR NAMES HERE" />
+<meta name="author" content="Bohong Zhao, James Franco" />
 
 
-<meta name="date" content="2022-10-22" />
+<meta name="date" content="2022-12-17" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -98,7 +98,7 @@
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">YOUR TITLE HERE</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Understanding the Spread and Waves of COVID-19 Pandemic</a>
           </h1>
         </div>
 
@@ -108,6 +108,46 @@
             <section class="normal" id="section-">
 <div id="results" class="section level1 hasAnchor" number="4">
 <h1><span class="header-section-number">Chapter 4</span> Results<a href="results.html#results" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>First, we want to determine the best measurement metrics for pandemic spread. From the dataset, we have three metrics to choose from: “New Positives”, “Cumulative Number of Positives”, “Test % Positive”. During the pandemic, people and media often use number of new cases each day to reflect the severity of the pandemic, but we suspect daily new cases is not an accurate metrics, due to its potential correlation to the number of tests performed each day. With more tests performed, more new cases would be discovered and documented. At the start of the pandemic, the shortage of supplies and immature pandemic combat tactics were very likely to result in a low number of testing performed. Therefore, we hypothesize “Test % Positive” is a better metrics that reflect the pandemic spread, in contrary to what most people perceive. Moreoever, “New Positives” and “Total Number of Tests Performed” have a positive correlation.</p>
+<p>See below for the cleaned dataset. There are no missing values, and we converted the “Test Date” column to date type, “Test % Positive” to double. We also converted all multi-word column titles to have an underscore “<em>” instead of a whitespace, to maintain best coding practices. On top of this, we also converted the percentage sign in “Test</em>%_Positive” to be the word “pct”, so the column became “Test_pct_Positive”.</p>
+<pre><code>## # A tibble: 74,314 × 8
+##    Test_Date  County           New_Positives Cumulative_Number_of_Positives Total_Number_of_Tests_Performed Cumulative_Number_of_Te…¹ Test_…² Geogr…³
+##    &lt;date&gt;     &lt;chr&gt;                    &lt;dbl&gt;                          &lt;dbl&gt;                           &lt;dbl&gt;                     &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;  
+##  1 2022-12-13 Albany                      50                          76182                             596                   1414357    7.33 COUNTY 
+##  2 2022-12-13 Allegany                     5                          10479                              77                    250537    6.15 COUNTY 
+##  3 2022-12-13 Bronx                      518                         489863                            5272                   8960600    8.78 COUNTY 
+##  4 2022-12-13 Broome                      38                          56828                             684                   1194076    5.78 COUNTY 
+##  5 2022-12-13 Capital Region             194                         275880                            2448                   5303110    7.42 REGION 
+##  6 2022-12-13 Cattaraugus                 11                          18742                             154                    309815   10.5  COUNTY 
+##  7 2022-12-13 Cayuga                       6                          19791                             262                    399588    2.17 COUNTY 
+##  8 2022-12-13 Central New York            88                         221165                            2444                   4442412    3.7  REGION 
+##  9 2022-12-13 Chautauqua                   9                          28555                             186                    532991    3.95 COUNTY 
+## 10 2022-12-13 Chemung                     15                          26049                             466                    488383    4.84 COUNTY 
+## # … with 74,304 more rows, and abbreviated variable names ¹​Cumulative_Number_of_Tests_Performed, ²​Test_pct_Positive, ³​Geography</code></pre>
+<p>The below scatter graph gives an overview the correlation between Number of Tests Performed and New Positives on a county level.From the graph, we can distinctly see that there is much more data for New York City and Statewide. This results in dots concentrating together for scatterplots for other counties.
+<img src="finalproj_files/figure-html/unnamed-chunk-112-1.png" width="672" /></p>
+<p>Therefore, we decide to look at New York City and Statewide individually first, to see if there exsits a correlation between New Positives and Total number of tests.The graphs shows a strong positive relationship between the two. This provides evidence to our hypothesis that daily new cases is influenced by number of tests, therefore it is a biased metrics to measure the pandemic spread.
+<img src="finalproj_files/figure-html/unnamed-chunk-113-1.png" width="672" /><img src="finalproj_files/figure-html/unnamed-chunk-113-2.png" width="672" /></p>
+<p>To see if the above finding is true for other counties, we use a parallel coordinate plot. After we filtered out NYC and statewide, we noticed a few extreme outliers that negatively impacts the visibility of the majority of data. We decided to remove those outliers using the IQR method. We further sampled 100 rows of data for clearer visualization. In the resulting parallel corrdinate plot, we noticed the majority of lines are parallel to each other, shooting upwards. This adds more evidence that daily new cases is influenced by number of tests in other counties as well.</p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-114-1.png" width="672" /></p>
+<p>In following two time series graph shows how New Positives and Number of Tests Performed changes overtime, with loess smoothing curves. We can clearly see that since the beginning of COVID-19, the number of tests performed gradually increases overtime and peaks at 2022. One explanation for this is there was a severe shortage of supplies and medical staffs at first. Interestingly, New Positives follows a similar trend: slowly increasing at first, and peaks at 2022. This again demonstrates the what New Cases are measuring may not truly be the daily new cases, but the cases identified through testing.</p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-115-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-116-1.png" width="672" /></p>
+<p>In conclusion, we decide to use “Test % Positive” as the pandemic spread measurement metrics for the remaining of this research. This metric eliminates the bias introduced by the number of tests and can more accurately reflect the pandemic spread. So, now that we have found our appropriate metric for measuring COVID spread, we might begin to attempt to answer our more explorative questions. That is, how does COVID spread geographically, how many waves has New York state experienced, and do these waves differ by location? To tackle these questions, we can examine time series plots of how the Test % Positive rate has changed over time. We can overlay multiple different counties together to examine results. To start, let’s use NYC and the Bronx to get an initial answer.</p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-117-1.png" width="672" />
+We’ll also compute 3-day and 7-day rolling averages for the positive test rate (for stability purposes), and display them in a similar manner. These plots are shown below.</p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-119-1.png" width="672" /><img src="finalproj_files/figure-html/unnamed-chunk-119-2.png" width="672" /></p>
+<p>NYC and the Bronx are geographically adjacent, and as such we might expect their COVID spread over time to be extremely similar - which is verified by our results. Based on the above plots, we may be willing to conclude that there are 3 waves, two of which being major. The first occurring at the beginning of 2020, the beginning of our COVID testing data collection period, a minor wave in late 2020 to early 2021, and another severe wave starting at the latter end of 2021. However, we haven’t yet asked whether this is true across the entirety of New York State. We can create a similar plot, but including a comparison to two far-away counties: Erie (far West) and Franklin (far North).</p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-120-1.png" width="672" /></p>
+<p>Perhaps somewhat surprisingly, we can see that while the positive test rate in Franklin mimics that of NYC somewhat closely, and yet there is a large discrepancy in Erie in early-mid 2022 - immediately after the 2nd major wave in NYC. So, it is clear that just using data from NYC may not be representative of the entire state. Instead, it allows us to form a reasonable first guess as to when the waves might have occurred, but more analysis is required to make any conclusions on a county-by-county basis. We’ll aim to do this by creating heatmaps overlayed onto a map of New York state, on which we will be able to get a better sense of how COVID spreads geographically. To start with, we’ll pick a somewhat arbitrary date at the beginning of 2022, and show our results.</p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-122-1.png" width="672" /></p>
+<p>As can be seen, on any given day, it is very possible that positive test rate differs quite highly depending on where you are within NY state. In order to get a better sense of how these rates develop over time, we’ll generate an animated plot over the time in which we have data.</p>
+<p><img src="gif_outputs/7-day%20rolling%20average%20(all%20dates).gif" /><!-- --></p>
+<p>We can see that despite small, isolated instances of COVID outbreaks at various points, our hypothesis of when the waves occur based on the NYC time series plot seems to be mostly accurate. That is, (of course, beyond the initial outbreak) one smaller wave beginning at the tail end of 2020 and a large wave at the end of 2021. To get a better sense of those two instances, we’ll also created animated plots over those two time frames, shown below.</p>
+<p><img src="gif_outputs/7-day%20rolling%20average%20(late%202020).gif" /><!-- --></p>
+<p><img src="gif_outputs/7-day%20rolling%20average%20(late%202021).gif" /><!-- --></p>
+<p>Another qualitative piece of information that we can see from these two animations is the geography-based nature of the spread of COVID cases. In both instances, we see surges originating in localised areas followed by a subsequent burst of cases in the surrounding areas which rapidly spread state-wide.</p>
+<p>In conclusion</p>
 
 </div>
             </section>

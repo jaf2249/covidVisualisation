@@ -4,26 +4,26 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 3 Data | YOUR TITLE HERE</title>
-  <meta name="description" content="Chapter 3 Data | YOUR TITLE HERE" />
+  <title>Chapter 3 Data | Understanding the Spread and Waves of COVID-19 Pandemic</title>
+  <meta name="description" content="Chapter 3 Data | Understanding the Spread and Waves of COVID-19 Pandemic" />
   <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 3 Data | YOUR TITLE HERE" />
+  <meta property="og:title" content="Chapter 3 Data | Understanding the Spread and Waves of COVID-19 Pandemic" />
   <meta property="og:type" content="book" />
   
   
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 3 Data | YOUR TITLE HERE" />
+  <meta name="twitter:title" content="Chapter 3 Data | Understanding the Spread and Waves of COVID-19 Pandemic" />
   
   
   
 
-<meta name="author" content="YOUR NAMES HERE" />
+<meta name="author" content="Bohong Zhao, James Franco" />
 
 
-<meta name="date" content="2022-10-22" />
+<meta name="date" content="2022-12-17" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -98,7 +98,7 @@
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">YOUR TITLE HERE</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Understanding the Spread and Waves of COVID-19 Pandemic</a>
           </h1>
         </div>
 
@@ -110,12 +110,21 @@
 <h1><span class="header-section-number">Chapter 3</span> Data<a href="data.html#data" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <div id="sources" class="section level2 hasAnchor" number="3.1">
 <h2><span class="header-section-number">3.1</span> Sources<a href="data.html#sources" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In this project, we used two data sources. We firstly used COVID testing information provided by the New York state government health department, located at: <a href="https://health.data.ny.gov/Health/New-York-State-Statewide-COVID-19-Testing/xdss-u53e" class="uri">https://health.data.ny.gov/Health/New-York-State-Statewide-COVID-19-Testing/xdss-u53e</a> . It contains COVID testing information since March 2020 across all 62 counties in New York state, and contains up until December 13th 2022 at the time of download. It’s easily downloadble as a .csv, and is very clean. We chose this dataset over others because of its good upkeep, and New York’s role as both a staple of COVID health regulations over the pandemic, and also as it is close to home (as Columbia students).</p>
+<p>The second dataset we used was from the Urban Institute, and was not so much a dataset as it was a pre-defined co-ordinate system. Itcontains latitude and longitude information of all counties in all states across the US. It exists almost entirely to be used for map-plotting, which is a large purpose of Urban Institute. It can be found at <a href="https://github.com/UrbanInstitute/urbnmapr" class="uri">https://github.com/UrbanInstitute/urbnmapr</a> with more info at <a href="https://urban-institute.medium.com/how-to-create-state-and-county-maps-easily-in-r-577d29300bb2" class="uri">https://urban-institute.medium.com/how-to-create-state-and-county-maps-easily-in-r-577d29300bb2</a> .</p>
 </div>
 <div id="cleaning-transformation" class="section level2 hasAnchor" number="3.2">
 <h2><span class="header-section-number">3.2</span> Cleaning / transformation<a href="data.html#cleaning-transformation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The columns in the NY Health dataset are: “Test Date”, “County”, “New Positives”, “Cumulative Number of Positives”, “Total Number of Tests Performed”, Cumulative Number of Tests Performed”, “Test % Positive”, and “Geography”. The cleaning and pre-processing steps were pretty minimal due to the data being updated regularly and maintained well. They were as follows:
+* Replace whitespaces with underscores in column names (e.g. “Test Date” -&gt; “Test_Date”)
+* Replace the “%” sign with “pct” in the column name: “Test % Positive” -&gt; “Test_pct_Positive”
+* Change “Test_Date” column type from string into date
+* Change “Test % Positive” column type from string into double (making sure to remove the trailing “%” sign)</p>
+<p>As the Urban Institute dataset exists almost entirely to be used for map-plotting (which is a large purpose of Urban Institute), there was hardly any cleaning required. However, there was one small point we had to address. In order to combine this map data for plotting with our COVID testing data, we had to perform a join on the name of the county. However, in the Urban Institute dataset, counties are named with a trailing ” County” on the end. For example, “Albany” is listed as a county in the NY gov dataset, but its corresponding entry in the Urban Institute dataset is “Albany County”. Thus, for compatibility we had to clean the Urban Institute dataset by removing all instances of ” County” and replacing it with an empty string.</p>
 </div>
 <div id="missing-value-analysis" class="section level2 hasAnchor" number="3.3">
 <h2><span class="header-section-number">3.3</span> Missing value analysis<a href="data.html#missing-value-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Neither dataset was missing any entries. This can be seen in the animations in the Results section, which show the entirety of the NY Health dataset plotted over all given dates, in all given counties. There are no empty frames (which would correspond to empty rows in the NY health dataset), and there are no missing counties or faulty co-ordinate locations (which would correspond to empty or incorrect rows in the Urban Institute dataset).</p>
 
 </div>
 </div>
