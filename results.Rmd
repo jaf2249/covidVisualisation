@@ -313,5 +313,3 @@ knitr::include_graphics("gif_outputs/7-day rolling average (late 2021).gif")
 ```
 
 Another qualitative piece of information that we can see from these two animations is the geography-based nature of the spread of COVID cases. In both instances, we see surges originating in localised areas followed by a subsequent burst of cases in the surrounding areas which rapidly spread state-wide.
-
-In conclusion
